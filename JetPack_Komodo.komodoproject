@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Komodo Project File - DO NOT EDIT -->
+<project id="785d9910-f00c-3e47-8251-5bff21dfca7c" kpf_version="5" name="JetPack_Komodo.komodoproject">
+<file id="d4e583c0-6b4f-f946-b4fc-979bf02bf197" idref="61a1aca4-fd00-ba4b-aa5a-8245501c2e7c" name="setup.xul" url="_prj_internal_/setup.xul">
+</file>
+<folder id="61a1aca4-fd00-ba4b-aa5a-8245501c2e7c" idref="785d9910-f00c-3e47-8251-5bff21dfca7c" name="Project">
+</folder>
+<preference-set idref="785d9910-f00c-3e47-8251-5bff21dfca7c">
+  <boolean id="configured">1</boolean>
+</preference-set>
+</project>

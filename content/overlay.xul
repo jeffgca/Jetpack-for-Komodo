@@ -7,20 +7,17 @@
          xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 
   <commandset id="allcommands">
-    <command id="Tasks:HelloWorld" oncommand="alert('Hello World');"/>
-    
-    <command id="Jetpack:Run" oncommand=""/>
-    <command id="Jetpack:Test" oncommand=""/>
-    <command id="Jetpack:Build" oncommand=""/>
-    <command id="Jetpack:Docs" oncommand=""/>
+    <command id="Jetpack:Run"   oncommand="Jetpack.test()"/>
+    <command id="Jetpack:Test"  oncommand="Jetpack.run()"/>
+    <command id="Jetpack:Build" oncommand="Jetpack.build()"/>
+    <command id="Jetpack:Docs"  oncommand="Jetpack.docs()"/>
     
   </commandset>
 
   <menupopup id="popup_tools">
     <menuitem id="menu_jetpackforkomodo"
               label="JetPack for Komodo"
-              observes="Tasks:HelloWorld"
+              observes="JetPack:Docs"
               class="menu-iconic-wide"/>
   </menupopup>
-    
 </overlay>

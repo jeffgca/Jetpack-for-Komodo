@@ -8,11 +8,17 @@
 
   <commandset id="allcommands">
     <command id="Tasks:HelloWorld" oncommand="alert('Hello World');"/>
+    
+    <command id="Jetpack:Run" oncommand=""/>
+    <command id="Jetpack:Test" oncommand=""/>
+    <command id="Jetpack:Build" oncommand=""/>
+    <command id="Jetpack:Docs" oncommand=""/>
+    
   </commandset>
 
   <menupopup id="popup_tools">
-    <menuitem id="menu_jetpaclforkomodo"
-              label="JetPacl for Komodo"
+    <menuitem id="menu_jetpackforkomodo"
+              label="JetPack for Komodo"
               observes="Tasks:HelloWorld"
               class="menu-iconic-wide"/>
   </menupopup>

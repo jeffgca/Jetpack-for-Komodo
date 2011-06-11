@@ -30,3 +30,4 @@ API, a custom menu and a set of default keybindings.
 * codeintel API catalog generation?
     * scrape the docs?
     * *__todo__*: pester Todd about the cix command-line build
+    * __also__: the scraping script should generate ctags for vim et al

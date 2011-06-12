@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE overlay PUBLIC "-//MOZILLA//DTD XUL V1.0//EN" "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 
-<overlay id="jetpaclforkomodoOverlay"
+<overlay id="jetpackforkomodoOverlay"
          xmlns:html="http://www.w3.org/1999/xhtml"
          xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
          xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
@@ -10,11 +10,11 @@
     <script type="application/x-javascript" src="chrome://jetpackforkomodo/content/jetpack.js" />    
 
     <commandset id="allcommands">
-        <command id="Jetpack:Test"   oncommand="Jetpack.test()"/>
-        <command id="Jetpack:Run"  oncommand="Jetpack.run()"/>
-        <command id="Jetpack:Build" oncommand="Jetpack.build()"/>
-        <command id="Jetpack:Docs"  oncommand="Jetpack.docs()"/>
-        <command id="Jetpack:SdkLocation"  oncommand="Jetpack.setSdkLocation()"/>  
+        <command id="Jetpack:Test"              oncommand="Jetpack.test()"/>
+        <command id="Jetpack:Run"               oncommand="Jetpack.run()"/>
+        <command id="Jetpack:Build"             oncommand="Jetpack.build()"/>
+        <command id="Jetpack:Docs"              oncommand="Jetpack.docs()"/>
+        <command id="Jetpack:SdkLocation"       oncommand="Jetpack.setSdkLocation()"/>  
     </commandset>
 
   <menupopup id="popup_tools">

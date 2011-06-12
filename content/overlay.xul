@@ -5,19 +5,22 @@
          xmlns:html="http://www.w3.org/1999/xhtml"
          xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
          xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
-
-  <commandset id="allcommands">
-    <command id="Jetpack:Run"   oncommand="Jetpack.test()"/>
-    <command id="Jetpack:Test"  oncommand="Jetpack.run()"/>
-    <command id="Jetpack:Build" oncommand="Jetpack.build()"/>
-    <command id="Jetpack:Docs"  oncommand="Jetpack.docs()"/>
     
-  </commandset>
+
+    <script type="application/x-javascript" src="chrome://jetpackforkomodo/content/jetpack.js" />    
+
+    <commandset id="allcommands">
+        <command id="Jetpack:Test"   oncommand="Jetpack.test()"/>
+        <command id="Jetpack:Run"  oncommand="Jetpack.run()"/>
+        <command id="Jetpack:Build" oncommand="Jetpack.build()"/>
+        <command id="Jetpack:Docs"  oncommand="Jetpack.docs()"/>
+        <command id="Jetpack:SdkLocation"  oncommand="Jetpack.setSdkLocation()"/>  
+    </commandset>
 
   <menupopup id="popup_tools">
     <menuitem id="menu_jetpackforkomodo"
               label="JetPack for Komodo"
-              observes="JetPack:Docs"
+              observes="JetPack:Run"
               class="menu-iconic-wide"/>
   </menupopup>
 </overlay>

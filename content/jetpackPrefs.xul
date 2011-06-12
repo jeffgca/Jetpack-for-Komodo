@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://global/skin" type="text/css"?>
+<?xml-stylesheet href="chrome://morekomodo/skin/morekomodo.css" type="text/css"?>
+
+<!DOCTYPE window SYSTEM "chrome://jetpackforkomodo/locale/strings.dtd" >
+
+<window xmlns:html="http://www.w3.org/1999/xhtml"
+        xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+        class="kodialog" orient="vertical">
+
+    <script type="application/x-javascript" src="chrome://jetpackforkomodo/content/jetpack.js.js" />    
+    
+    <groupbox orient="vertical">
+      <caption label="Addon SDK Location"/>
+  
+      <groupbox orient="horizontal" id="sdk-location-groupbox">
+        <caption label="Path to the Addons SDK"/>
+            <textbox id="zend_project_location" flex="1"/>
+            <button
+              id="sdk-location-browse"
+              label="Browse"
+              command="Jetpack:SdkLocation"
+            />
+      </groupbox>
+    </groupbox>
+    
+    <separator class="thin"/>
+
+</window>

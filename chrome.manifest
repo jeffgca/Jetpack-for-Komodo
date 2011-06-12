@@ -1,2 +1,3 @@
-content jetpaclforkomodo jar:jetpaclforkomodo.jar!/content/ xpcnativewrappers=yes
-overlay chrome://komodo/content/komodo.xul chrome://jetpaclforkomodo/content/overlay.xul
+content jetpaclforkomodo jar:jetpackforkomodo.jar!/content/ xpcnativewrappers=yes
+overlay chrome://komodo/content/komodo.xul chrome://jetpackforkomodo/content/overlay.xul
+overlay	chrome://komodo/content/pref/pref.xul	chrome://jetpackforkomodo/content/jetpackPrefOverlay.xul

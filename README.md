@@ -49,4 +49,4 @@ __Tasks__
 * Implement the base commands as an API
 * figure out how to best make the functionality available to the user.
     * main methods are init but more importantly test and run
-    * key binadings!
+    * key bindings!

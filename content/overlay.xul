@@ -5,8 +5,6 @@
          xmlns:html="http://www.w3.org/1999/xhtml"
          xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
          xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
-
-    <script src="chrome://xtk/content/xtk.js" type="application/x-javascript;version=1.7"/>
     <script src="chrome://jetpackforkomodo/content/jetpack.js" type="application/x-javascript;version=1.7" />
 
     <commandset id="allcommands">
@@ -15,15 +13,6 @@
         <command id="Jetpack:Build"             oncommand="Jetpack.build()"/>
         <command id="Jetpack:Docs"              oncommand="Jetpack.docs()"/> 
     </commandset>
-    
-    
-<!--    <broadcasterset id="broadcasterset_global">
-        <broadcaster
-            id="cmd_jetpack_run"
-            key="key_cmd_morekomodo_makeBackup"
-            desc="&morekomodo.make.backup.desc;"
-            oncommand="goDoCommand('cmd_morekomodo_makeBackup')"/>
-    </broadcasterset>-->
 
   <menupopup id="popup_tools">
     <menuitem id="menu_jetpackforkomodo"

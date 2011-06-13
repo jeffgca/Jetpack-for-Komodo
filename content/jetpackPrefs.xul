@@ -4,28 +4,54 @@
 
 <!DOCTYPE window SYSTEM "chrome://jetpackforkomodo/locale/strings.dtd" >
 
-<window xmlns:html="http://www.w3.org/1999/xhtml" id="jetpack-prefpane"
+<window xmlns:html="http://www.w3.org/1999/xhtml"
+        id="jetpack-prefpane"
         xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
-        class="kodialog" orient="vertical">
+        class="kodialog"
+        orient="vertical"
+        onload="Jetpack.loadPrefs()"
+        onunload="Jetpack.saveSdkLocation()">
 
-    <script type="application/x-javascript" src="chrome://jetpackforkomodo/content/jetpack.js.js" />
-    
-    <commandset id="allcommands">
-        <!--<command id="Jetpack:SdkLocation"       oncommand="Jetpack.setSdkLocation()"/>-->
-        <command id="Jetpack:SdkLocation"       oncommand="alert('hello world')"/>
-    </commandset>
+<script src="chrome://xtk/content/xtk.js"
+  type="application/x-javascript;version=1.7"/>
+<script src="chrome://komodo/content/library/trace.js"
+  type="application/x-javascript;version=1.7"/>
+<script src="chrome://komodo/content/library/logging.js"
+  type="application/x-javascript;version=1.7"/>
+<script src="chrome://komodo/content/library/dialogs.js"
+  type="application/x-javascript;version=1.7"/>
+<script src="chrome://komodo/content/library/filepickers.js"
+  type="application/x-javascript;version=1.7"/>
+<script src="chrome://komodo/content/library/uriparse.js"
+  type="application/x-javascript;version=1.7"/>
+<script src="chrome://komodo/content/project/baseManager.js"
+  type="application/x-javascript;version=1.7"/>
+<script src="chrome://komodo/content/project/projectManager.js"
+  type="application/x-javascript;version=1.7"/> 
+<script src="chrome://jetpackforkomodo/content/jetpack.js"
+    type="application/x-javascript;version=1.7"/>
     
     <groupbox orient="vertical">
       <caption label="Addon SDK Location"/>
   
       <groupbox orient="horizontal" id="sdk-location-groupbox">
-        <caption label="Path to the Addons SDK"/>
-            <textbox id="sd-location-txt" flex="1"/>
+        <!--XXX todo: localize these strings-->
+        <caption label="Path to the Addons SDK directory"/>
+            <textbox id="sdk-location-txt" flex="1"/>
             <button
               id="sdk-location-browse"
               label="Browse"
-              command="Jetpack:SdkLocation"
-            />
+              oncommand="Jetpack.setSdkLocation()"/>
+      </groupbox>
+      
+      <groupbox orient="horizontal" id="sdk-location-groupbox">
+        
+        <caption label="Path to Firefox"/>
+            <textbox id="firefox-location-txt" flex="1"/>
+            <button
+              id="firefox-location-browse"
+              label="Browse"
+              oncommand="Jetpack.setFirefoxLocation()"/>
       </groupbox>
     </groupbox>
     

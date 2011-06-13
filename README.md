@@ -6,8 +6,6 @@ easily create, run, test and build Firefox extensions using the new Addons SDK.*
 *__Minimum Viable Extension__*: implement basic commands and expose them via a JS
 API, a custom menu and a set of default keybindings.
 
-##Napkin spec
-
 #####Minimum Viable Extension
 
 * __prefs__: expose preferences for setting two key variables:
@@ -31,3 +29,24 @@ API, a custom menu and a set of default keybindings.
     * scrape the docs?
     * *__todo__*: pester Todd about the cix command-line build
     * __also__: the scraping script should generate ctags for vim et al
+
+##### Project creation:
+
+* single argument: project name
+    * create extension-safe version ( limit chars, lower-case, etc )
+    * create directory with safe name
+    * programmatically create project - required
+    * in directory, run cfx init
+    * bam!
+
+__Tasks__
+
+* Simple Macro that creates a new Jetpack project DONE
+    * hard-coded paths for cfx, etc
+    * fire & forget
+* Prefs for SDK path and Firefox path DONE
+    * poached shamelessly from Morekomodo
+* Implement the base commands as an API
+* figure out how to best make the functionality available to the user.
+    * main methods are init but more importantly test and run
+    * key binadings!

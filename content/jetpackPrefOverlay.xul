@@ -4,6 +4,9 @@
 
 <overlay id="jetpackPrefOverlay"
          xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+    
+    <script src="chrome://komodo/content/library/filepickers.js"
+        type="application/x-javascript;version=1.7"/>
 
     <hbox id="prefsTree">
         <treechildren id="panelChildren">
@@ -13,7 +16,6 @@
                               url="chrome://jetpackforkomodo/content/jetpackPrefs.xul"
                               label="Jetpack"/>
                 </treerow>
-
             </treeitem>
         </treechildren>
     </hbox>

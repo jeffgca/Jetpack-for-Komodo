@@ -22,9 +22,9 @@ try {
      
     this.koDirs = Components.classes['@activestate.com/koDirs;1']. 
       getService(Components.interfaces.koIDirs); 
-    
-    // this.projectDir = ko.interpolate.interpolateString('%p');
-        
+
+    this.sdk_location_pref_name = 'addons-sdk-location';
+    this.prefSvc = Components.classes['@activestate.com/koPrefService;1'].getService(Components.interfaces.koIPrefService).prefs;
         
     this.windaz = false;
     
@@ -78,16 +78,75 @@ this.build = function() {
  * open the docs in a Komodo tab, or (? pref ?) in a new browser tab
  */
 this.docs = function() {
-    
+    _run_cfx('docs');
 }
 
+/* get our prefs instance */
+this._prefBranch = Components.classes["@mozilla.org/preferences-service;1"]
+        .getService(Components.interfaces.nsIPrefService)
+        .getBranch("canuckistani.jetpack.");
+
+/**
+ * set the SDK location
+ */
 this.setSdkLocation = function() {
+
+    var sdk_dir = ko.filepicker.getFolder(false, 'Please select the root directory');
+    var arr = [sdk_dir, 'bin', 'cfx'];
+    var cfx_path =  this.os.path.joinlist(arr.length, arr)
+    if (!this.os.path.exists(sdk_dir)) {
+        alert('The selected path does not exist.');
+        return;
+    }
+
+    if (!this.os.path.isfile(cfx_path)) {
+        alert('The selected path does not appear to contain an Addons SDK.');
+        return;
+    }
+
+    document.getElementById('sdk-location-txt').value = sdk_dir;
+    this._prefBranch.setCharPref('sdk_directory', sdk_dir);
+}
+
+/**
+ * Load our prefs
+ */
+this.loadPrefs = function() {
+    document.getElementById('sdk-location-txt').value = this._prefBranch.getCharPref('sdk_directory');
+    document.getElementById('firefox-location-txt').value = this._prefBranch.getCharPref('firefox_app');
+}
+
+/**
+ * set the location of Firefox.
+ */
+this.setFirefoxLocation = function() {
     try {
-        alert('got here');
-        var sdk_dir = ko.filepicker.getFolder(false, 'Please select the root directory');
+        var ff_name = 'Firefox.app';
+        if (this.appInfo.OS == 'WINNT') {
+            ff_name = 'Firefox.exe';
+        }
+        
+        var ff_path = ko.filepicker.browseForExeFile(this.os.path.dirname(this.koDirs.installDir), ff_name);
+    
+        alert(ff_path);
+        if (!this.os.path.exists(ff_path)) {
+            alert('The selected Firefox installation does not exist.');
+            return;
+        }
+        
+        document.getElementById('firefox-location-txt').value = ff_path;
+        this._prefBranch.setCharPref('firefox_app', ff_path);
+        
     } catch (e) {
         alert(e);
     }
+}
+
+this._get_cfx_path = function() {
+    var sdk_dir = this.prefSvc.getCharPref('sdk_directory');
+    var app = 'cfx';
+    if (appInfo.OS == 'WINNT') { app += '.bat' };
+    return this.os.path.join(sdk_dir, app);
 }
 
 /**
@@ -95,24 +154,19 @@ this.setSdkLocation = function() {
  * Should support both running in output, as well as running in a separate
  * terminal ( might need this for the docs server? ).
  */
-function _run_cfx(arg) {
-    var app = 'cfx', ffbin = '';
+this._run_cfx = function(arg) {
+
+    var sdk_dir = this.prefSvc.getCharPref('sdk_directory');
+    var app = 'cfx';
+    if (appInfo.OS == 'WINNT') { app += '.bat' };
+    var cfx = this.os.path.join(sdk_dir, app);
     
-    // OS detection 
-    appInfo.OS == 'WINNT' ? this.windaz = true : this.windaz = false;
+    var ff = this._prefBranch.getCharPref('firefox_app');
     
-    if (this.windaz) {
-        app = 'cfx.bat'
-    }
-    
-    /* will need to do some kind of work-around for Windaz. */
-    
-    // var cmd =
-    var cmd = app + ' ' + arg ;
+    var cmd = cfx + ' -b ' + ff + ' ' + arg;
     
     ko.run.runEncodedCommand(window, cmd, function() {
-      ko.statusBar.AddMessage('Build complete', 'projects', 5000, true);
-      ko.projects.manager.saveProject(project);
+        ko.statusBar.AddMessage('cfx ' + args +' complete', 'projects', 5000, true);
     }); 
 }
 

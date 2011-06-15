@@ -28,24 +28,49 @@ try {
         
     this.windaz = false;
     
+    /* get our prefs instance */
+    this._prefBranch = Components.classes["@mozilla.org/preferences-service;1"]
+            .getService(Components.interfaces.nsIPrefService)
+            .getBranch("canuckistani.jetpack.");
+    
 } catch (e) {
     alert(e);
 }
 
+this.sanitize_name = function(s) {
+    return s.replace(/[\s\.]*/g, '').toLowerCase();
+}
 
-this.new_project = function() {
-    
-    /* TODO localize */
-    var project_root = ko.filepicker.getFolder(os.getcwd(), "Choose a directory to create your new project in.");
-    
+this.vars = {};
+
+this.init = function() {
     try {
-        var dir = os.path.join(project_root, safe_name);        
-        os.mkdir(dir);
-
-        _run_cfx('init');
+        this.vars.project_root = ko.filepicker.getFolder(this.os.getcwd(), "Choose a directory to create your new project in.");
+        this.vars.name = ko.dialogs.prompt('Addon name', 'What do you want to call your new extension?');
+        this.vars.safe_name = this.sanitize_name(this.vars.name);
+        this.vars.curdir = this.os.path.join(this.vars.project_root, this.vars.safe_name);
+        this.os.mkdir(this.vars.curdir);
+        this._run_cfx('init', Jetpack.create_project);
+        
     }
     catch(e) {
-        ko.eggs.writeLine(e);
+        ko.dialogs.internalError(e, e);
+    }
+}
+
+this.create_project = function() {    
+    try {
+        var projectName = Jetpack.vars.safe_name + '.komodoproject';
+        // ko.dialogs.internalError('Debug', JSON.stringify(Jetpack.vars, false, 4));
+        var url = ko.uriparse.localPathToURI(Jetpack.os.path.join(Jetpack.vars.curdir, projectName));
+        var project = Components.classes["@activestate.com/koProject;1"]
+            .createInstance(Components.interfaces.koIProject);
+        project.create();
+        project.url = url;
+        project.save();
+        ko.projects.open(url);        
+    } catch (e) {
+        alert(e);
     }
 }
 
@@ -64,33 +89,46 @@ this.test = function() {
  * run the extension
  */
 this.run = function() {
-    _run_cfx('run');
+    try {
+        this._run_cfx('run', function () {
+            ko.statusBar.AddMessage('Addon Runnin?', 'Jetpack', 5000, true);
+        });
+    } catch (e) {
+        alert(e);
+    }
 }
 
 /**
  * build an xpi for this extension
  */
 this.build = function() {
-    
+    try {
+        this._run_cfx('build', function () {
+            ko.statusBar.AddMessage('Addon Built?', 'Jetpack', 5000, true);
+        });
+        
+    } catch (e) {
+        alert(e);
+    }
 }
 
 /**
  * open the docs in a Komodo tab, or (? pref ?) in a new browser tab
  */
 this.docs = function() {
-    _run_cfx('docs');
+    try {
+        this._run_cfx('docs', function () {
+            ko.statusBar.AddMessage('Got docs?', 'Jetpack', 5000, true);
+        });
+    } catch (e) {
+        alert(e);
+    }
 }
-
-/* get our prefs instance */
-this._prefBranch = Components.classes["@mozilla.org/preferences-service;1"]
-        .getService(Components.interfaces.nsIPrefService)
-        .getBranch("canuckistani.jetpack.");
 
 /**
  * set the SDK location
  */
 this.setSdkLocation = function() {
-
     var sdk_dir = ko.filepicker.getFolder(false, 'Please select the root directory');
     var arr = [sdk_dir, 'bin', 'cfx'];
     var cfx_path =  this.os.path.joinlist(arr.length, arr)
@@ -121,14 +159,21 @@ this.loadPrefs = function() {
  */
 this.setFirefoxLocation = function() {
     try {
-        var ff_name = 'Firefox.app';
-        if (this.appInfo.OS == 'WINNT') {
-            ff_name = 'Firefox.exe';
+        /* attempt to guess what the app name will probably be. */
+        var ff_name;
+        switch(this.appInfo.OS) {
+            case 'WINNT':
+                ff_name = 'Firefox.exe';
+                break;
+            case 'Darwin':
+                ff_name = 'Firefox.app';
+                break;
+            default:
+                ff_name = 'firefox';
+                break;
         }
         
         var ff_path = ko.filepicker.browseForExeFile(this.os.path.dirname(this.koDirs.installDir), ff_name);
-    
-        alert(ff_path);
         if (!this.os.path.exists(ff_path)) {
             alert('The selected Firefox installation does not exist.');
             return;
@@ -143,10 +188,11 @@ this.setFirefoxLocation = function() {
 }
 
 this._get_cfx_path = function() {
-    var sdk_dir = this.prefSvc.getCharPref('sdk_directory');
+    var sdk_dir = this._prefBranch.getCharPref('sdk_directory');
     var app = 'cfx';
-    if (appInfo.OS == 'WINNT') { app += '.bat' };
-    return this.os.path.join(sdk_dir, app);
+    if (this.appInfo.OS == 'WINNT') { app += '.bat' };
+    var l = [sdk_dir, 'bin', app];
+    return this.os.path.joinlist(l.length, l);
 }
 
 /**
@@ -154,23 +200,27 @@ this._get_cfx_path = function() {
  * Should support both running in output, as well as running in a separate
  * terminal ( might need this for the docs server? ).
  */
-this._run_cfx = function(arg) {
+this._run_cfx = function(arg, callback) {
+    
+    try {
+        var curdir = false;
+        if (typof(Jetpack.vars.curdir) != 'undefined') {
+            curdir = Jetpack.vars.curdir;
+        }
+        else {
+            curdir = ko.interpolate.interpolateString('%p');
+        }
 
-    var sdk_dir = this.prefSvc.getCharPref('sdk_directory');
-    var app = 'cfx';
-    if (appInfo.OS == 'WINNT') { app += '.bat' };
-    var cfx = this.os.path.join(sdk_dir, app);
+        var cfx = this._get_cfx_path();
+        var ff = this._prefBranch.getCharPref('firefox_app');
+        var cmd = cfx + ' -b ' + ff + ' ' + arg;
+        cmd += " {'cwd': u'"+ curdir +"'}";
     
-    var ff = this._prefBranch.getCharPref('firefox_app');
-    
-    var cmd = cfx + ' -b ' + ff + ' ' + arg;
-    
-    ko.run.runEncodedCommand(window, cmd, function() {
-        ko.statusBar.AddMessage('cfx ' + args +' complete', 'projects', 5000, true);
-    }); 
-}
+        ko.run.runEncodedCommand(window, cmd, callback);
+            
+        } catch (e) {
+            alert(e);
+        }
+    }
 
 }).apply(Jetpack);
-
-
-

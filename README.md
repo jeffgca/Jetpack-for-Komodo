@@ -31,22 +31,28 @@ API, a custom menu and a set of default keybindings.
     * __also__: the scraping script should generate ctags for vim et al
 
 ##### Project creation:
-
-* single argument: project name
+* <del>Single argument: project name</del>
     * create extension-safe version ( limit chars, lower-case, etc )
     * create directory with safe name
     * programmatically create project - required
     * in directory, run cfx init
     * bam!
 
-__Tasks__
+##### Tasks
 
-* Simple Macro that creates a new Jetpack project DONE
+* <del>Simple Macro that creates a new Jetpack project DONE</del>
     * hard-coded paths for cfx, etc
     * fire & forget
-* Prefs for SDK path and Firefox path DONE
+* <del>Prefs for SDK path and Firefox path DONE</del>
     * poached shamelessly from Morekomodo
-* Implement the base commands as an API
+* Implement the base commands as an API - 1/2 done
+    * <del>init</del>
+    * todo: run, test, docs
+* Project meta-data?
+    * project.json file in .komodotools?
+    * read file in, initialize the Jetpack object?
 * figure out how to best make the functionality available to the user.
     * main methods are init but more importantly test and run
     * key bindings!
+    * for now implemented Tools / SDK menu
+    * programmatically generate the project commands?

@@ -8,16 +8,39 @@
     <script src="chrome://jetpackforkomodo/content/jetpack.js" type="application/x-javascript;version=1.7" />
 
     <commandset id="allcommands">
-        <command id="Jetpack:Test"              oncommand="Jetpack.test()"/>
-        <command id="Jetpack:Run"               oncommand="Jetpack.run()"/>
-        <command id="Jetpack:Build"             oncommand="Jetpack.build()"/>
-        <command id="Jetpack:Docs"              oncommand="Jetpack.docs()"/> 
+        <command id="Jetpack:Init"  oncommand="Jetpack.init()"/>
+        <command id="Jetpack:Test"  oncommand="Jetpack.test()"/>
+        <command id="Jetpack:Run"   oncommand="Jetpack.run()"/>
+        <command id="Jetpack:Build" oncommand="Jetpack.build()"/>
+        <command id="Jetpack:Docs"  oncommand="Jetpack.docs()"/> 
     </commandset>
 
   <menupopup id="popup_tools">
-    <menuitem id="menu_jetpackforkomodo"
-              label="JetPack for Komodo"
-              observes="Jetpack:Run"
-              class="menu-iconic-wide"/>
+    <menu label="Addon SDK">
+        <menupopup id="moz-addons-sdk-popup">
+            <menuitem id="moz-addons-sdk-init"
+                      label="Create new project"
+                      observes="Jetpack:Init"
+                      class="menu-iconic-wide"/>
+            <menuitem id="moz-addons-sdk-run"
+                      label="Run"
+                      observes="Jetpack:Run"
+                      class="menu-iconic-wide"/>    
+            <menuitem id="moz-addons-sdk-test"
+                      label="Test"
+                      observes="Jetpack:Test"
+                      class="menu-iconic-wide"/>
+            <menuitem id="moz-addons-sdk-xpi"
+                      label="Jetpack: Run"
+                      observes="Jetpack:Build"
+                      class="menu-iconic-wide"/>
+            <menuitem id="moz-addons-sdk-docs"
+                      label="View documentation"
+                      observes="Jetpack:Docs"
+                      class="menu-iconic-wide"/>                
+        </menupopup>
+
+    </menu>
+
   </menupopup>
 </overlay>

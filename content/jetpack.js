@@ -11,11 +11,20 @@ if(typeof(Jetpack) == 'undefined') {
 (function() {
     
 try {
+    
+    this.PREF_BRANCH = 'canuckistani.jetpack.';
+    this.SDK_PREF_NAME = 'sdk_directory';
+    this.FF_PREF_NAME = 'firefox_app';
+    this.ext_Id ='jetpackforkomodo@canuckistani.ca';
+    
+    this.mozDirSvc = Components.classes["@mozilla.org/file/directory_service;1"]
+           .getService(Components.interfaces.nsIProperties);
+    
     this.os = Components.classes['@activestate.com/koOs;1']. 
       getService(Components.interfaces.koIOs); 
      
     this.koSysUtils = Components.classes["@activestate.com/koSysUtils;1"]. 
-      getService(Components.interfaces.koISysUtils); 
+      getService(Components.interfaces.koISysUtils);
      
     this.appInfo = Components.classes["@mozilla.org/xre/app-info;1"]. 
       getService(Components.interfaces.nsIXULRuntime); 
@@ -31,10 +40,18 @@ try {
     /* get our prefs instance */
     this._prefBranch = Components.classes["@mozilla.org/preferences-service;1"]
             .getService(Components.interfaces.nsIPrefService)
-            .getBranch("canuckistani.jetpack.");
+            .getBranch(this.PREF_BRANCH);
+            
+    
     
 } catch (e) {
     alert(e);
+}
+
+this.getExtDir = function() {
+    var extDir = this.mozDirSvc.get("ProfD", Components.interfaces.nsILocalFile).target;
+    var pieces = [extDir, 'extensions', this.ext_Id];
+    return os.path.joinlist(pieces.length, pieces);
 }
 
 this.sanitize_name = function(s) {
@@ -61,14 +78,14 @@ this.init = function() {
 this.create_project = function() {    
     try {
         var projectName = Jetpack.vars.safe_name + '.komodoproject';
-        // ko.dialogs.internalError('Debug', JSON.stringify(Jetpack.vars, false, 4));
         var url = ko.uriparse.localPathToURI(Jetpack.os.path.join(Jetpack.vars.curdir, projectName));
         var project = Components.classes["@activestate.com/koProject;1"]
             .createInstance(Components.interfaces.koIProject);
         project.create();
         project.url = url;
         project.save();
-        ko.projects.open(url);        
+        ko.projects.open(url);
+        
     } catch (e) {
         alert(e);
     }
@@ -79,7 +96,9 @@ this.create_project = function() {
  */
 this.test = function() {
     try {
-        alert('in test!!');
+        this._run_cfx('test', function () {
+            ko.statusBar.AddMessage('Addon testing?', 'Jetpack', 5000, true);
+        });
     } catch (e) {
         alert(e);
     }
@@ -103,10 +122,9 @@ this.run = function() {
  */
 this.build = function() {
     try {
-        this._run_cfx('build', function () {
-            ko.statusBar.AddMessage('Addon Built?', 'Jetpack', 5000, true);
+        this._run_cfx('xpi', function () {
+            ko.statusBar.AddMessage('Addon Building?', 'Jetpack', 5000, true);
         });
-        
     } catch (e) {
         alert(e);
     }
@@ -143,7 +161,7 @@ this.setSdkLocation = function() {
     }
 
     document.getElementById('sdk-location-txt').value = sdk_dir;
-    this._prefBranch.setCharPref('sdk_directory', sdk_dir);
+    this._prefBranch.setCharPref(this.SDK_PREF_NAME, sdk_dir);
 }
 
 /**
@@ -180,7 +198,7 @@ this.setFirefoxLocation = function() {
         }
         
         document.getElementById('firefox-location-txt').value = ff_path;
-        this._prefBranch.setCharPref('firefox_app', ff_path);
+        this._prefBranch.setCharPref(this.FF_PREF_NAME, ff_path);
         
     } catch (e) {
         alert(e);
@@ -204,7 +222,8 @@ this._run_cfx = function(arg, callback) {
     
     try {
         var curdir = false;
-        if (typof(Jetpack.vars.curdir) != 'undefined') {
+        
+        if (typeof(Jetpack.vars.curdir) !== 'undefined') {
             curdir = Jetpack.vars.curdir;
         }
         else {

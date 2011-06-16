@@ -10,7 +10,7 @@
 
     <hbox id="prefsTree">
         <treechildren id="panelChildren">
-            <treeitem container="true" id="uiJetpackMain">
+            <treeitem container="false" id="uiJetpackMain">
                 <treerow>
                     <treecell class="treecell-indent"
                               url="chrome://jetpackforkomodo/content/jetpackPrefs.xul"

@@ -14,7 +14,7 @@
                 <treerow>
                     <treecell class="treecell-indent"
                               url="chrome://jetpackforkomodo/content/jetpackPrefs.xul"
-                              label="Jetpack"/>
+                              label="Mozilla Addons SDK"/>
                 </treerow>
             </treeitem>
         </treechildren>

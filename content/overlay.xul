@@ -31,7 +31,7 @@
                       observes="Jetpack:Test"
                       class="menu-iconic-wide"/>
             <menuitem id="moz-addons-sdk-xpi"
-                      label="Jetpack: Run"
+                      label="Build"
                       observes="Jetpack:Build"
                       class="menu-iconic-wide"/>
             <menuitem id="moz-addons-sdk-docs"

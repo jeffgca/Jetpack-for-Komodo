@@ -47,12 +47,14 @@ API, a custom menu and a set of default keybindings.
     * poached shamelessly from Morekomodo
 * Implement the base commands as an API - 1/2 done
     * <del>init</del>
-    * todo: run, test, docs
-* Project meta-data?
-    * project.json file in .komodotools?
-    * read file in, initialize the Jetpack object?
+    * <del>todo: run, test, docs</del>
 * figure out how to best make the functionality available to the user.
     * main methods are init but more importantly test and run
     * key bindings!
     * for now implemented Tools / SDK menu
-    * programmatically generate the project commands?
+
+##### Known issues
+
+* poor handling of prefs not being set.
+* Komodo 5 doesn't work
+
